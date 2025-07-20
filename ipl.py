@@ -1,0 +1,78 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+df=pd.read_csv("IPL.csv")
+#print(df.head())
+df.drop(columns=["umpire3"],inplace=True)
+
+df.dropna(subset=["city","player_of_match","winner","toss_winner","toss_decision","result","season","umpire1","umpire2"],inplace=True)
+#print(df.isnull().sum())
+
+season=df["season"].value_counts()
+
+plt.figure(figsize=(8,6))
+plt.bar(season.index,season.values,color="purple")
+plt.xlabel("Seasons(Year)")
+plt.ylabel("Matches")
+plt.title("Matches per year")
+plt.tight_layout()
+plt.savefig("matchesperyear.png")
+plt.show()
+
+
+toss=df["toss_decision"].value_counts()
+plt.figure(figsize=(8,6))
+plt.pie(toss,labels=toss.index,autopct="%1.1f%%")
+plt.title("Toss Decisions")
+plt.tight_layout()
+plt.savefig("tossdecision.png")
+plt.show()
+
+result=df["result"].value_counts()
+plt.figure(figsize=(8,6))
+plt.pie(result,labels=result.index,autopct="%1.1f%%",colors={"green","yellow"})
+plt.title("Result of Matches")
+plt.tight_layout()
+plt.savefig("result.png")
+plt.show()
+
+plt.figure(figsize=(8,6))
+winbyruns=df["win_by_runs"]
+plt.hist(winbyruns,bins=10,color="skyblue",edgecolor="black")
+plt.title("Win by Runs")
+plt.xlabel("Runs")
+plt.ylabel("Matches")
+plt.tight_layout()
+plt.savefig("winbyruns.png")
+plt.show()
+
+plt.figure(figsize=(8,6))
+winbywickets=df["win_by_wickets"]
+plt.hist(winbywickets,bins=7,color="blue",edgecolor="black")
+plt.title("Win by Wickets")
+plt.xlabel("wickets")
+plt.ylabel("Matches")
+plt.tight_layout()
+plt.savefig("winbywickets.png")
+plt.show()
+
+player=df["player_of_match"].value_counts().head(10)
+plt.figure(figsize=(8,6))
+plt.barh(player.index,player.values,color="teal")
+plt.title("Top 10 most player of match")
+plt.xlabel("Matches")
+plt.ylabel("Players")
+plt.tight_layout()
+plt.savefig("players.png")
+plt.show()
+
+winner=df["winner"].value_counts()
+plt.figure(figsize=(12,6))
+plt.scatter(winner.index,winner.values,color="red")
+plt.title("Matches win by teams")
+plt.xlabel("Teams")
+plt.ylabel("Matches")
+plt.xticks(rotation=60)
+plt.grid()
+plt.tight_layout()
+plt.savefig("Matches.png")
+plt.show()
